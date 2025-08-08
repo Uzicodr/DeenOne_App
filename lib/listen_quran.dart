@@ -31,7 +31,10 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DeenOne',style: TextStyle(color: primaryColorGold, fontFamily: 'Lateef'),),
+        title: Text(
+          'DeenOne',
+          style: TextStyle(color: primaryColorGold, fontFamily: 'Lateef'),
+        ),
         backgroundColor: primaryColorBlue,
         actions: [
           IconButton(
@@ -53,9 +56,7 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
         ),
       ),
       body: surahs.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(color: primaryColorGold),
-            )
+          ? Center(child: CircularProgressIndicator(color: primaryColorGold))
           : ListView.builder(
               itemCount: surahs.length,
               itemBuilder: (context, index) {
@@ -63,7 +64,7 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
                 bool playingThis = isplaying && currentSurah == index + 1;
                 return InkWell(
                   onTap: () => PlaySurah(index + 1),
-                  
+
                   child: ListTile(
                     title: Text(
                       surah.englishName.toString(),
