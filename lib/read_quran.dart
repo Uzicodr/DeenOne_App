@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quran_app/surah.dart';
 import 'written_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'colorscheme.dart';
 
 class SurahMenuWritten extends StatefulWidget {
   const SurahMenuWritten({super.key});
@@ -26,14 +28,21 @@ class _SurahMenuWrittenState extends State<SurahMenuWritten> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Quran App",
-            style: TextStyle(color: Color(0xffe9c359), fontFamily: 'Lateef'),
+            "DeenOne",
+            style: TextStyle(color: primaryColorGold, fontFamily: 'Lateef'),
           ),
-          backgroundColor: Color(0xff231407),
+          backgroundColor: primaryColorBlue,
+          leading: IconButton(
+          icon: Icon(CupertinoIcons.back),
+          color: primaryColorGold,
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        )
         ),
         body: surahs.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(color: Color(0xffe9c359)),
+            ? Center(
+                child: CircularProgressIndicator(color: primaryColorGold),
               )
             : ListView.builder(
                 itemCount: surahs.length,
@@ -46,6 +55,7 @@ class _SurahMenuWrittenState extends State<SurahMenuWritten> {
                     ),
                     leading: CircleAvatar(
                       backgroundImage: AssetImage('assets/logo.png'),
+                      backgroundColor: primaryColorBlue,
                     ),
                     subtitle: Text(
                       surah.revelationType.toString(),

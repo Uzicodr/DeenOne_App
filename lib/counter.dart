@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quran_app/colorscheme.dart';
+import 'provider.dart';
 
 class TasbeehCounter extends StatefulWidget {
   const TasbeehCounter({super.key});
@@ -8,12 +11,10 @@ class TasbeehCounter extends StatefulWidget {
 }
 
 class _TasbeehCounterState extends State<TasbeehCounter> {
-  var counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff231407),
+      backgroundColor: primaryColorBlue,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -21,33 +22,33 @@ class _TasbeehCounterState extends State<TasbeehCounter> {
             // Counter Circle
             Container(
               padding: const EdgeInsets.all(40),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xffe9c359),
-              ),
-              child: Center(
-                child: Text(
-                  '$counter',
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff231407),
-                  ),
-                ),
+                color: primaryColorGold,
               ),
               width: 200,
               height: 200,
+              child: Center(
+                child: Consumer<AppProvider>(
+                  builder: (ctx, _, __) => Text(
+                    '${Provider.of<AppProvider>(ctx, listen: true).count}',
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColorBlue,
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 50),
 
             FloatingActionButton(
-              backgroundColor: const Color(0xffe9c359),
+              backgroundColor: primaryColorGold,
               onPressed: () {
-                setState(() {
-                  counter++;
-                });
+                Provider.of<AppProvider>(context, listen: false).increment();
               },
-              child: const Icon(Icons.add, color: Color(0xff231407)),
+              child: Icon(Icons.add, color: primaryColorBlue),
             ),
 
             const SizedBox(height: 20),
@@ -55,13 +56,11 @@ class _TasbeehCounterState extends State<TasbeehCounter> {
             // Reset Button
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffe9c359),
-                foregroundColor: const Color(0xff231407),
+                backgroundColor: primaryColorGold,
+                foregroundColor:  primaryColorBlue,
               ),
               onPressed: () {
-                setState(() {
-                  counter = 0;
-                });
+                Provider.of<AppProvider>(context, listen: false).reset();
               },
               child: const Text("Reset"),
             ),

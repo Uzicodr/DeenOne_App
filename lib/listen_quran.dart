@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quran_app/colorscheme.dart';
 import 'written_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
+import 'provider.dart';
 
 class SurahMenuAudio extends StatefulWidget {
   const SurahMenuAudio({super.key});
@@ -26,39 +29,49 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff231407),
-          leading: IconButton(
-            icon: Icon(CupertinoIcons.back),
-            color: Color(0xffe9c359),
-            onPressed: ()async {
-              await _audioPlayer.stop();
-              setState(() {
-                
-              });
-              Navigator.pop(context);
-            },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('DeenOne',style: TextStyle(color: primaryColorGold, fontFamily: 'Lateef'),),
+        backgroundColor: primaryColorBlue,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sunny, color: primaryColorGold),
+            onPressed: Provider.of<AppProvider>(
+              context,
+              listen: false,
+            ).changetheme,
           ),
-          actions: [],
+        ],
+        leading: IconButton(
+          icon: Icon(CupertinoIcons.back),
+          color: primaryColorGold,
+          onPressed: () async {
+            await _audioPlayer.stop();
+            setState(() {});
+            Navigator.pop(context);
+          },
         ),
-        body: surahs.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(color: Color(0xffe9c359)),
-              )
-            : ListView.builder(
-                itemCount: surahs.length,
-                itemBuilder: (context, index) {
-                  final surah = surahs[index];
-                  bool playingThis = isplaying && currentSurah == index + 1;
-                  return ListTile(
+      ),
+      body: surahs.isEmpty
+          ? Center(
+              child: CircularProgressIndicator(color: primaryColorGold),
+            )
+          : ListView.builder(
+              itemCount: surahs.length,
+              itemBuilder: (context, index) {
+                final surah = surahs[index];
+                bool playingThis = isplaying && currentSurah == index + 1;
+                return InkWell(
+                  onTap: () => PlaySurah(index + 1),
+                  
+                  child: ListTile(
                     title: Text(
                       surah.englishName.toString(),
                       style: TextStyle(fontFamily: 'Lateef'),
                     ),
                     leading: CircleAvatar(
                       backgroundImage: AssetImage('assets/logo.png'),
+                      backgroundColor: primaryColorBlue,
                     ),
                     subtitle: Text(
                       surah.revelationType.toString(),
@@ -70,13 +83,13 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
                           ? Icon(Icons.pause, color: Colors.red)
                           : Icon(
                               Icons.play_arrow_outlined,
-                              color: Color(0xffe9c359),
+                              color: primaryColorBlue,
                             ),
                     ),
-                  );
-                },
-              ),
-      ),
+                  ),
+                );
+              },
+            ),
     );
   }
 

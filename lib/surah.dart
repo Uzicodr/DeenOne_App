@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:quran_app/colorscheme.dart';
 import 'dart:convert';
 import 'surah_model.dart';
 
@@ -43,12 +44,12 @@ class _SurahPageState extends State<SurahPage> {
       appBar: AppBar(
         title: Text(
           surahArabic!.data!.englishName ?? "Surah",
-          style: TextStyle(color: Color(0xffe9c359), fontFamily: 'Lateef'),
+          style: TextStyle(color: primaryColorGold, fontFamily: 'Lateef'),
         ),
-        backgroundColor: Color(0xff231407),
+        backgroundColor: primaryColorBlue,
         leading: IconButton(
           icon: Icon(CupertinoIcons.back),
-          color: Color(0xffe9c359),
+          color: primaryColorGold,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -86,19 +87,6 @@ class _SurahPageState extends State<SurahPage> {
             ),
           );
         },
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(color: Color(0xff231407)),
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.play_circle_outline_sharp),
-              iconSize: 36,
-              color: Color(0xffe9c359),
-            ),
-          ],
-        ),
       ),
     );
   }

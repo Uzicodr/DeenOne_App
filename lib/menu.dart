@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:quran_app/colorscheme.dart';
 import 'package:quran_app/counter.dart';
 import 'package:quran_app/listen_quran.dart';
+import 'package:quran_app/namaz_timing.dart';
+import 'package:quran_app/provider.dart';
 import 'package:quran_app/read_quran.dart';
+
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -15,7 +21,7 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff231407),
+      backgroundColor: primaryColorBlue,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -24,11 +30,11 @@ class _MenuState extends State<Menu> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                "خوش آمدید",
+                  "خوش آمدید",
                   style: TextStyle(
                     fontFamily: 'Lateef',
                     fontSize: 48,
-                    color: const Color(0xffe9c359),
+                    color: primaryColorGold,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -40,20 +46,31 @@ class _MenuState extends State<Menu> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: const Color(0xffe9c359),
+                  color: primaryColorGold,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SurahMenuWritten()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SurahMenuWritten(),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 20),
+                        horizontal: 32,
+                        vertical: 20,
+                      ),
                       child: Center(
                         child: Column(
                           children: [
-                            Icon(Icons.book,color: Color(0xff231407),size: 45)
-                            ,Text(
+                            Icon(
+                              FlutterIslamicIcons.solidQuran2,
+                              color: primaryColorBlue,
+                              size: 45,
+                            ),
+                            Text(
                               "Read Quran",
                               style: TextStyle(
                                 fontFamily: 'Lateef',
@@ -76,20 +93,32 @@ class _MenuState extends State<Menu> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: const Color(0xffe9c359),
+                  color: primaryColorGold,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SurahMenuAudio()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (context) => AppProvider(),
+                            child: SurahMenuAudio(),
+                          ),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 20),
+                        horizontal: 32,
+                        vertical: 20,
+                      ),
                       child: Center(
                         child: Column(
                           children: [
                             Icon(
-                              Icons.headphones,color: Color(0xff231407),size: 45,
+                              Icons.headphones,
+                              color: primaryColorBlue,
+                              size: 45,
                             ),
                             Text(
                               "Listen Quran",
@@ -113,21 +142,32 @@ class _MenuState extends State<Menu> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: const Color(0xffe9c359),
+                  color: primaryColorGold,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TasbeehCounter()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NamazTiming(),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 20),
+                        horizontal: 32,
+                        vertical: 20,
+                      ),
                       child: Center(
                         child: Column(
                           children: [
-                            Icon(CupertinoIcons.timer,color: Color(0xff231407),size: 45)
-                            ,Text(
-                              "Tasbeeh Counter",
+                            Icon(
+                              FlutterIslamicIcons.solidPrayingPerson,
+                              color: primaryColorBlue,
+                              size: 45,
+                            ),
+                            Text(
+                              "Prayer Times",
                               style: TextStyle(
                                 fontFamily: 'Lateef',
                                 fontSize: 32,
@@ -141,6 +181,54 @@ class _MenuState extends State<Menu> {
                   ),
                 ),
 
+                const SizedBox(height: 20),
+
+                Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  color: primaryColorGold,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (context) => AppProvider(),
+                            child: TasbeehCounter(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 20,
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Icon(
+                              FlutterIslamicIcons.solidTasbihHand,
+                              color: primaryColorBlue,
+                              size: 45,
+                            ),
+                            Text(
+                              "Tasbeeh",
+                              style: TextStyle(
+                                fontFamily: 'Lateef',
+                                fontSize: 32,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

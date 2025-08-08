@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:quran_app/colorscheme.dart';
 import 'package:quran_app/menu.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Color(0xff231407)),
+        decoration: BoxDecoration(color: primaryColorBlue),
         child: Image(
           image: AssetImage('assets/logo.png'),
           height: 200,
