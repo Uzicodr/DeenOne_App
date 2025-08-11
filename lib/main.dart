@@ -4,6 +4,7 @@ import 'splash_screen.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor:primaryColorGold)),
     home: SplashScreen(),
   ));

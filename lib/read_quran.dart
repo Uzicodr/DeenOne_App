@@ -5,6 +5,7 @@ import 'written_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'colorscheme.dart';
+import 'search_delegate.dart';
 
 class SurahMenuWritten extends StatefulWidget {
   const SurahMenuWritten({super.key});
@@ -14,7 +15,8 @@ class SurahMenuWritten extends StatefulWidget {
 }
 
 class _SurahMenuWrittenState extends State<SurahMenuWritten> {
-  List<Data> surahs = [];
+  List<Data> allSurahs = [];
+  List<Data> filteredSurahs = [];
 
   @override
   void initState() {
@@ -33,21 +35,31 @@ class _SurahMenuWrittenState extends State<SurahMenuWritten> {
           ),
           backgroundColor: primaryColorBlue,
           leading: IconButton(
-          icon: Icon(CupertinoIcons.back),
-          color: primaryColorGold,
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        )
+            icon: Icon(CupertinoIcons.back),
+            color: primaryColorGold,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: SurahSearchDelegate(allSurahs),
+                );
+              },
+              icon: Icon(Icons.search),
+              color: primaryColorGold,
+            ),
+          ],
         ),
-        body: surahs.isEmpty
-            ? Center(
-                child: CircularProgressIndicator(color: primaryColorGold),
-              )
+        body: filteredSurahs.isEmpty
+            ? Center(child: CircularProgressIndicator(color: primaryColorGold))
             : ListView.builder(
-                itemCount: surahs.length,
+                itemCount: filteredSurahs.length,
                 itemBuilder: (context, index) {
-                  final surah = surahs[index];
+                  final surah = filteredSurahs[index];
                   return ListTile(
                     title: Text(
                       surah.englishName.toString(),
@@ -61,7 +73,10 @@ class _SurahMenuWrittenState extends State<SurahMenuWritten> {
                       surah.revelationType.toString(),
                       style: TextStyle(fontFamily: 'Lateef'),
                     ),
-                    trailing: Text("Ayah: ${surah.numberOfAyahs.toString()}",style: TextStyle(fontFamily: 'Lateef',fontSize: 14),),
+                    trailing: Text(
+                      "Ayah: ${surah.numberOfAyahs.toString()}",
+                      style: TextStyle(fontFamily: 'Lateef', fontSize: 14),
+                    ),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -89,7 +104,8 @@ class _SurahMenuWrittenState extends State<SurahMenuWritten> {
       final QuranModel quranModel = QuranModel.fromJson(json);
 
       setState(() {
-        surahs = quranModel.data ?? [];
+        allSurahs = quranModel.data ?? [];
+        filteredSurahs = allSurahs; // initially show all
       });
     } else {
       print('Failed to fetch data');

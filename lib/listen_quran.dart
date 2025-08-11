@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:quran_app/colorscheme.dart';
 import 'written_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
-import 'provider.dart';
+import 'search_delegate.dart';
 
 class SurahMenuAudio extends StatefulWidget {
   const SurahMenuAudio({super.key});
@@ -16,7 +15,8 @@ class SurahMenuAudio extends StatefulWidget {
 }
 
 class _SurahMenuAudioState extends State<SurahMenuAudio> {
-  List<Data> surahs = [];
+  List<Data> allsurahs = [];
+  List<Data> filteredSurahs = [];
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool isplaying = false;
   int? currentSurah;
@@ -38,11 +38,13 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
         backgroundColor: primaryColorBlue,
         actions: [
           IconButton(
-            icon: Icon(Icons.sunny, color: primaryColorGold),
-            onPressed: Provider.of<AppProvider>(
-              context,
-              listen: false,
-            ).changetheme,
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SurahSearchDelegate(allsurahs),
+              );
+            },
+            icon: Icon(Icons.search, color: primaryColorGold),
           ),
         ],
         leading: IconButton(
@@ -55,12 +57,12 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
           },
         ),
       ),
-      body: surahs.isEmpty
+      body: allsurahs.isEmpty
           ? Center(child: CircularProgressIndicator(color: primaryColorGold))
           : ListView.builder(
-              itemCount: surahs.length,
+              itemCount: allsurahs.length,
               itemBuilder: (context, index) {
-                final surah = surahs[index];
+                final surah = allsurahs[index];
                 bool playingThis = isplaying && currentSurah == index + 1;
                 return InkWell(
                   onTap: () => PlaySurah(index + 1),
@@ -105,7 +107,7 @@ class _SurahMenuAudioState extends State<SurahMenuAudio> {
       final QuranModel quranModel = QuranModel.fromJson(json);
 
       setState(() {
-        surahs = quranModel.data ?? [];
+        allsurahs = quranModel.data ?? [];
       });
     } else {
       print('Failed to fetch data');
